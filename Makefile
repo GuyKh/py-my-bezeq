@@ -8,13 +8,8 @@ else
 endif
 
 # loading and exporting all env vars from .env file automatically
-ifneq (,$(wildcard ./.env))
-    include .env
-    export
-endif
-
-APP_NAME="python-boilerplate-project"
-IMAGE_NAME="python-boilerplate-project"
+APP_NAME="py-my-bezeq"
+IMAGE_NAME="py-my-bezeq"
 VERSION="latest"
 MAIN_ENTRYPOINT="src/main.py"
 
@@ -23,7 +18,7 @@ MAIN_ENTRYPOINT="src/main.py"
 # COMMANDS TO RUN LOCALLY
 ################################
 
-local/install: generate-default-env-file
+local/install:
 	poetry install
 
 local/tests:
@@ -33,7 +28,7 @@ local/lint:
 	poetry run ruff check .
 
 local/lint/fix:
-	poetry run ruff . --fix
+	poetry run ruff check . --fix
 
 local/run:
 	poetry run python ${MAIN_ENTRYPOINT}
@@ -42,7 +37,7 @@ local/run:
 # COMMANDS TO RUN USING DOCKER (RECOMMENDED)
 ############################################
 
-docker/install: generate-default-env-file
+docker/install:
 	$(DOCKER_COMPOSE) build ${APP_NAME}
 
 docker/up:
@@ -60,9 +55,6 @@ docker/lint:
 docker/lint/fix:
 	$(DOCKER_COMPOSE) run ${APP_NAME} poetry run ruff . --fix
 
-docker/run:
-	$(DOCKER_COMPOSE) run ${APP_NAME} poetry run python ${MAIN_ENTRYPOINT}
-
 ####################################
 # DOCKER IMAGE COMMANDS
 ####################################
@@ -73,9 +65,3 @@ docker/image/build:
 docker/image/push:
 	docker push ${IMAGE_NAME}:${VERSION}
 
-##################
-# HEPFUL COMMANDS
-##################
-
-generate-default-env-file:
-	@if [ ! -f .env ]; then cp env.template .env; fi;

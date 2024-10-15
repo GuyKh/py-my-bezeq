@@ -1,6 +1,22 @@
-# python-boilerplate-project
+# py-my-bezeq - Bezeq (MyBezeq) API Python wrapper
 
-A python boilerplate project using poetry
+This would allow you to logon, fetch various data.
+
+## Installation
+To install, run:
+```
+pip3 install py-my-bezeq
+```
+
+## Usage example
+```python
+api = MyBezeqAPI("1234", "password")
+
+await api.login()
+print("Logged in")
+
+print(await api.get_dashboard_tab())
+```
 
 ## Technology and Resources
 
@@ -31,7 +47,6 @@ install | `make docker/install` | `make local/install` | to install
 tests | `make docker/tests` | `make local/tests` | to run the tests with coverage
 lint | `make docker/lint` | `make local/lint` | to run static code analysis using ruff
 lint/fix | `make docker/lint/fix` | `make local/lint/fix` | to fix files using ruff
-run | `make docker/run` | `make local/run` | to run the project
 build image | `make docker/image/build` | - | to build the docker image
 push image | `make docker/image/push` | - | to push the docker image
 

@@ -1,12 +1,11 @@
 version: "3.4"
 services:
-  python-boilerplate-project:
+  py-my-bezeq:
     tty: true
-    image: "python-boilerplate-project"
+    image: "py-my-bezeq"
     stdin_open: true
     build:
       context: .
       target: "development"
     volumes:
       - ".:/src"
-    env_file: .env
