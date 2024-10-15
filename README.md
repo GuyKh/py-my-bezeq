@@ -10,6 +10,8 @@ pip3 install py-my-bezeq
 
 ## Usage example
 ```python
+from my_bezeq import MyBezeqAPI
+
 api = MyBezeqAPI("1234", "password")
 
 await api.login()
