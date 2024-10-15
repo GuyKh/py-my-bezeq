@@ -4,7 +4,7 @@ from datetime import date, timedelta
 
 import aiohttp
 
-from src import ElectricReportLevel, MyBezeqAPI
+from my_bezeq import ElectricReportLevel, MyBezeqAPI
 
 logging.basicConfig(level=logging.DEBUG)
 
