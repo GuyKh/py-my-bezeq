@@ -1,7 +1,7 @@
 from dataclasses import dataclass, field
 from datetime import date, datetime
 from enum import Enum
-from typing import List
+from typing import List, Optional
 
 from mashumaro import DataClassDictMixin, field_options
 from mashumaro.config import BaseConfig
@@ -107,9 +107,9 @@ class FormattedDate(SerializationStrategy):
 
 
 class ElectricReportLevel(Enum):
-    DAY = 1
-    WEEK = 2
-    MONTH = 3
+    HOURLY = 1
+    DAILY = 2
+    MONTHLY = 3
 
 
 @dataclass
@@ -130,37 +130,45 @@ class UsageRecordBase(DataClassDictMixin):
 
 
 @dataclass
-class MonthlyUsageRecord(DataClassDictMixin, UsageRecordBase):
+class MonthlyUsage(UsageRecordBase, DataClassDictMixin):
     usage_month: datetime = field(metadata=field_options(alias="UsageMonth"))
     sum_all_month: float = field(metadata=field_options(alias="SumAllMonth"))
+
+    def __repr__(self):
+        return f"MonthlyUsage({self.usage_month.strftime("%m-%Y")}: {self.sum_all_day})"
 
 
 @dataclass
 class GetYearlyElectricReportResponse(BaseResponse):
-    usage_data: List[MonthlyUsageRecord] = field(default_factory=list, metadata=field_options(alias="UsageData"))
+    usage_data: Optional[List[MonthlyUsage]] = field(default_factory=list, metadata=field_options(alias="UsageData"))
 
 
 @dataclass
-class DailyUsage(DataClassDictMixin, UsageRecordBase):
+class DailyUsage(UsageRecordBase, DataClassDictMixin):
     usage_day: datetime = field(metadata=field_options(alias="UsageDay"))
     sum_all_day: float = field(metadata=field_options(alias="SumAllDay"))
 
+    def __repr__(self):
+        return f"DailyUsage({self.usage_day.date()}: {self.sum_all_day})"
 
 @dataclass
 class GetMonthlyElectricReportResponse(BaseResponse):
     usage_month: int = field(metadata=field_options(alias="UsageMonth"))
-    sum_all: float = field(metadata=field_options(alias="SumAll"))
-    usage_data: List[DailyUsage] = field(default_factory=list, metadata=field_options(alias="UsageData"))
+    sum_all: Optional[float] = field(metadata=field_options(alias="SumAll"))
+    usage_data: Optional[List[DailyUsage]] = field(default_factory=list, metadata=field_options(alias="UsageData"))
 
 
 @dataclass
-class HourlyUsage(DataClassDictMixin, UsageRecordBase):
+class HourlyUsage(UsageRecordBase, DataClassDictMixin):
     usag_hour: int = field(metadata=field_options(alias="UsagHour"))
-    sum_all_hour: float = field(metadata=field_options(alias="SumAllHour"))
+    sum_all_hour: Optional[float] = field(metadata=field_options(alias="SumAllHour"))
+
+    def __repr__(self):
+        return f"HourlyUsage({self.usag_hour}: {self.sum_all_hour})"
 
 
 @dataclass
 class GetDailyElectricReportResponse(BaseResponse):
     usage_day: int = field(metadata=field_options(alias="UsageDay"))
-    sum_all: float = field(metadata=field_options(alias="SumAll"))
-    usage_data: List[HourlyUsage] = field(default_factory=list, metadata=field_options(alias="UsageData"))
+    sum_all: Optional[float] = field(metadata=field_options(alias="SumAll"))
+    usage_data: Optional[List[HourlyUsage]] = field(default_factory=list, metadata=field_options(alias="UsageData"))
