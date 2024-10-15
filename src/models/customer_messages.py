@@ -3,7 +3,7 @@ from typing import List, Optional
 
 from mashumaro import field_options
 
-from my_bezeq.models.base import BaseResponse
+from .base import BaseResponse
 
 # POST https://my-api.bezeq.co.il/{{version}}/api/CustomerMessages/GetCustomerMessages
 #

@@ -3,9 +3,9 @@ from typing import Optional
 
 from aiohttp import ClientSession
 
-from my_bezeq.commons import resolve_version, send_post_json_request
-from my_bezeq.const import USERNAME_LOGIN_URL
-from my_bezeq.models.username_login import UsernameLoginRequest, UsernameLoginResponse
+from .commons import resolve_version, send_post_json_request
+from .const import USERNAME_LOGIN_URL
+from .models.username_login import UsernameLoginRequest, UsernameLoginResponse
 
 _LOGGER = logging.getLogger(__name__)
 

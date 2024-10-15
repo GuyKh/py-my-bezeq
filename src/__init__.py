@@ -1,5 +1,5 @@
-from my_bezeq.api import MyBezeqAPI
-from my_bezeq.exceptions import (
+from .api import MyBezeqAPI
+from .exceptions import (
     MyBezeqError,
     MyBezeqLoginError,
     MyBezeqUnauthorizedError,

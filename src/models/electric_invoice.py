@@ -4,8 +4,8 @@ from typing import List, Optional
 
 from mashumaro import DataClassDictMixin, field_options
 
-from my_bezeq.models.base import BaseAuthResponse
-from my_bezeq.models.common import BaseCard
+from .base import BaseAuthResponse
+from .common import BaseCard
 
 # POST https://my-api.bezeq.co.il/{{version}}/api/InvoicesTab/GetElectInvoiceTab
 #

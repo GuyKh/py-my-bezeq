@@ -3,7 +3,7 @@ import logging
 
 import aiohttp
 
-from my_bezeq import MyBezeqAPI
+from src import MyBezeqAPI
 
 logging.basicConfig(level=logging.DEBUG)
 

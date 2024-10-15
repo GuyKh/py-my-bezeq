@@ -9,8 +9,8 @@ FROM base AS dependencies
 RUN poetry install --no-dev
 
 FROM base AS development
-RUN poetry install
 COPY . .
+RUN poetry install
 
 FROM dependencies AS production
 COPY src src

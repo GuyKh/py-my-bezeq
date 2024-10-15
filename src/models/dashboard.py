@@ -4,8 +4,8 @@ from typing import List, Optional
 from mashumaro import DataClassDictMixin, field_options
 from mashumaro.config import BaseConfig
 
-from my_bezeq.models.base import BaseAuthResponse
-from my_bezeq.models.common import BaseCard, BaseEntity, ElectSubscriber
+from .base import BaseAuthResponse
+from .common import BaseCard, BaseEntity, ElectSubscriber
 
 # POST https://my-api.bezeq.co.il/{{version}}/api/Dashboard/GetDashboard
 # {"PhoneNumber":""}

@@ -7,7 +7,7 @@ from mashumaro import DataClassDictMixin, field_options
 from mashumaro.config import BaseConfig
 from mashumaro.types import SerializationStrategy
 
-from my_bezeq.models.base import BaseResponse
+from .base import BaseResponse
 
 # POST https://my-api.bezeq.co.il/{{version}}/api/ElectricityTab/GetElectReportByYear
 # {

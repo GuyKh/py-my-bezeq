@@ -4,8 +4,8 @@ from uuid import UUID
 import aiohttp
 from aiohttp import ClientSession
 
-from my_bezeq.commons import send_get_request, send_post_json_request
-from my_bezeq.const import (
+from .commons import send_get_request, send_post_json_request
+from .const import (
     CUSTOMER_MESSAGES_URL,
     DASHBOARD_URL,
     ELECTRIC_INVOICES_PDF_URL,
@@ -15,15 +15,15 @@ from my_bezeq.const import (
     INVOICES_URL,
     SITE_CONFIG_URL,
 )
-from my_bezeq.exceptions import MyBezeqError
-from my_bezeq.login import username_login
-from my_bezeq.models.customer_messages import GetCustomerMessagesResponse
-from my_bezeq.models.dashboard import GetDashboardRequest, GetDashboardResponse
-from my_bezeq.models.electric_invoice import GetElectricInvoiceTabResponse
-from my_bezeq.models.electricity_tab import GetElectricityTabRequest, GetElectricityTabResponse
-from my_bezeq.models.feeds import GetFeedsResponse
-from my_bezeq.models.invoice import GetInvoicesTabResponse
-from my_bezeq.models.site_config import GetSiteConfigResponse
+from .exceptions import MyBezeqError
+from .login import username_login
+from .models.customer_messages import GetCustomerMessagesResponse
+from .models.dashboard import GetDashboardRequest, GetDashboardResponse
+from .models.electric_invoice import GetElectricInvoiceTabResponse
+from .models.electricity_tab import GetElectricityTabRequest, GetElectricityTabResponse
+from .models.feeds import GetFeedsResponse
+from .models.invoice import GetInvoicesTabResponse
+from .models.site_config import GetSiteConfigResponse
 
 
 class MyBezeqAPI:
