@@ -2,4 +2,4 @@
 
 ## Reporting a Vulnerability
 
-If you found a security bug, report it opening an [issue](https://github.com/marcieltorres/python-boilerplate-project/issues/new/choose) describing how to reproduce.
+If you found a security bug, report it opening an [issue](https://github.com/GuyKh/py-my-bezeq/issues/new/choose) describing how to reproduce.
