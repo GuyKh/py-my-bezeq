@@ -33,6 +33,9 @@ class Param(DataClassDictMixin):
     param_name: str = field(metadata=field_options(alias="ParamName"))
     param_value: str = field(metadata=field_options(alias="ParamValue"))
 
+    def __repr__(self):
+        return f"Param([{self.id}]{self.param_name}: {self.param_value})"
+
 
 @dataclass
 class GetSiteConfigResponse(BaseResponse):

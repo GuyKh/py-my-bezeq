@@ -85,8 +85,9 @@ async def resolve_version(session: ClientSession) -> str:
         if len(split) != 3:
             if not version:
                 raise MyBezeqVersionError(f"Failed to calculate version from My Bezeq API: {json_resp}")
-            return version
+            version = version
 
+        _LOGGER.debug(f"Fetched version: {version}")
         version = f"v{split[0]}.{split[1]}"
         version_fetch_datetime = datetime.now()
 
@@ -107,6 +108,7 @@ async def send_post_json_request(
 
     json = await resp.json(content_type=None)
 
+    _LOGGER.debug(f"Got JSON Response: {json}")
     return json
 
 
@@ -125,8 +127,8 @@ async def send_post_request(data, headers, json_data, session, timeout, token, u
             timeout = session.timeout
 
         url = url.format(version=await resolve_version(session))
+        _LOGGER.debug(f"Sending POST request to {url} with data: {json_data}")
         resp = await session.post(url=url, data=data, json=json_data, headers=headers, timeout=timeout)
-
     except TimeoutError as ex:
         raise MyBezeqError(f"Failed to communicate with My Bezeq API due to time out: ({str(ex)})")
     except ClientError as ex:

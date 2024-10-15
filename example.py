@@ -1,9 +1,10 @@
 import asyncio
 import logging
+from datetime import date, timedelta
 
 import aiohttp
 
-from src import MyBezeqAPI
+from src import ElectricReportLevel, MyBezeqAPI
 
 logging.basicConfig(level=logging.DEBUG)
 
@@ -12,8 +13,8 @@ async def main():
     session = aiohttp.ClientSession(connector=aiohttp.TCPConnector(ssl=False), timeout=aiohttp.ClientTimeout(total=60))
 
     try:
-        api = MyBezeqAPI("1234", "password", session)
-        print(await api.get_site_config())
+        api = MyBezeqAPI("1234", "pass", session)
+        # print(await api.get_site_config())
 
         await api.login()
         print("Logged in")
@@ -23,6 +24,11 @@ async def main():
         print(await api.get_invoice_tab())
         print(await api.get_electric_invoice_tab())
         print(await api.get_electricity_tab())
+
+        yesterday = date.today() - timedelta(days=1)
+        print(await api.get_elec_usage_report(ElectricReportLevel.HOURLY, yesterday, yesterday))
+        print(await api.get_elec_usage_report(ElectricReportLevel.DAILY, yesterday, yesterday))
+
 
     finally:
         await session.close()

@@ -141,12 +141,18 @@ class Bar(BaseEntity):
 
 
 @dataclass
+class AvailableSubscriber(DataClassDictMixin):
+    subscriber_no: str = field(metadata=field_options(alias="SubscriberNo"))
+    is_current: bool = field(metadata=field_options(alias="IsCurrent"))
+
+@dataclass
 class CustomerDetail(DataClassDictMixin):
     first_name: str = field(metadata=field_options(alias="FirstName"))
     last_name: str = field(metadata=field_options(alias="LastName"))
     customer_id: str = field(metadata=field_options(alias="CustomerId"))
     have_cyber: bool = field(metadata=field_options(alias="HaveCyber"))
-    available_subscribers: List = field(default_factory=list, metadata=field_options(alias="AvailableSubscribers"))
+    available_subscribers: List[AvailableSubscriber] = field(
+        default_factory=list, metadata=field_options(alias="AvailableSubscribers"))
     elect_subscribers: List[ElectSubscriber] = field(
         default_factory=list, metadata=field_options(alias="ElectSubscribers")
     )

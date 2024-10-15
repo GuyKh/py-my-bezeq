@@ -1,3 +1,4 @@
+from datetime import date
 from typing import Optional
 from uuid import UUID
 
@@ -10,6 +11,8 @@ from .const import (
     DASHBOARD_URL,
     ELECTRIC_INVOICES_PDF_URL,
     ELECTRIC_INVOICES_URL,
+    ELECTRIC_REPORT_BY_DAY_URL,
+    ELECTRIC_REPORT_BY_MONTH_URL,
     ELECTRICITY_TAB_URL,
     FEEDS_URL,
     INVOICES_URL,
@@ -20,6 +23,13 @@ from .login import username_login
 from .models.customer_messages import GetCustomerMessagesResponse
 from .models.dashboard import GetDashboardRequest, GetDashboardResponse
 from .models.electric_invoice import GetElectricInvoiceTabResponse
+from .models.electric_report import (
+    ElectricReportLevel,
+    GetDailyElectricReportResponse,
+    GetElectricReportRequest,
+    GetMonthlyElectricReportResponse,
+    GetYearlyElectricReportResponse,
+)
 from .models.electricity_tab import GetElectricityTabRequest, GetElectricityTabResponse
 from .models.feeds import GetFeedsResponse
 from .models.invoice import GetInvoicesTabResponse
@@ -55,8 +65,12 @@ class MyBezeqAPI:
             )
         )
 
-        if len(res.customer_details.elect_subscribers) > 0:
-            self._subscriber_number = res.customer_details.elect_subscribers[0].subscriber
+        if not self._subscriber_number:
+            if len(res.customer_details.elect_subscribers) > 0:
+                self._subscriber_number = res.customer_details.elect_subscribers[0].subscriber
+            elif len(res.customer_details.available_subscribers) > 0:
+                self._subscriber_number = res.customer_details.available_subscribers[0].subscriber_no
+
         return res
 
     async def get_invoice_tab(self):
@@ -105,3 +119,37 @@ class MyBezeqAPI:
             self._subscriber_number = res.elect_subscribers[0].subscriber
 
         return res
+
+    async def get_elec_usage_report(self, level: ElectricReportLevel, from_date: date | str, to_date: date | str)\
+            -> GetDailyElectricReportResponse | GetMonthlyElectricReportResponse | GetYearlyElectricReportResponse:
+
+        if isinstance(from_date, str): # "2024-10-10"
+            from_date = date.fromisoformat(from_date)
+        if isinstance(to_date, str):    # "2024-10-10"
+            to_date = date.fromisoformat(to_date)
+
+        req = GetElectricReportRequest(from_date, to_date, level)
+
+        if to_date < from_date:
+            raise MyBezeqError("from_date should be before to_date")
+
+        url = ""
+        match level:
+            case ElectricReportLevel.HOURLY:
+                url = ELECTRIC_REPORT_BY_DAY_URL
+            case ElectricReportLevel.DAILY:
+                url = ELECTRIC_REPORT_BY_MONTH_URL
+            case ElectricReportLevel.MONTHLY:
+                url = ELECTRIC_REPORT_BY_MONTH_URL
+
+        res = await send_post_json_request(
+                self._session, self._jwt_token, url, json_data=req.to_dict(), use_auth=True
+            )
+
+        match level:
+            case ElectricReportLevel.HOURLY:
+                return GetDailyElectricReportResponse.from_dict(res)
+            case ElectricReportLevel.DAILY:
+                return GetMonthlyElectricReportResponse.from_dict(res)
+            case ElectricReportLevel.MONTHLY:
+                return GetYearlyElectricReportResponse.from_dict(res)
