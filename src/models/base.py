@@ -6,12 +6,12 @@ from mashumaro import DataClassDictMixin, field_options
 
 @dataclass
 class BaseResponse(DataClassDictMixin):
-    is_successful: bool = field(metadata=field_options(alias="IsSuccessful"))
-    error_code: str = field(metadata=field_options(alias="ErrorCode"))
-    error_message: str = field(metadata=field_options(alias="ErrorMessage"))
-    client_error_message: str = field(metadata=field_options(alias="ClientErrorMessage"))
+    is_successful: bool = field(metadata=field_options(alias="IsSuccessful"), repr=False)
+    error_code: str = field(metadata=field_options(alias="ErrorCode"), repr=False)
+    error_message: str = field(metadata=field_options(alias="ErrorMessage"), repr=False)
+    client_error_message: str = field(metadata=field_options(alias="ClientErrorMessage"), repr=False)
 
 
 @dataclass
 class BaseAuthResponse(BaseResponse):
-    jwt_token: Optional[str] = field(metadata=field_options(alias="JWTToken"))
+    jwt_token: Optional[str] = field(metadata=field_options(alias="JWTToken"), repr=False)
