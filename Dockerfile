@@ -1,4 +1,4 @@
-FROM python:3.11.0-slim-buster AS base
+FROM python:3.11.4-slim-buster AS base
 
 WORKDIR /src
 
