@@ -7,8 +7,8 @@ from mashumaro import DataClassDictMixin, field_options
 from mashumaro.config import BaseConfig
 from mashumaro.types import SerializationStrategy
 
-from my_bezeq.models.base import BaseResponse
-from my_bezeq.models.common import BaseCard, ElectSubscriber
+from .base import BaseResponse
+from .common import BaseCard, ElectSubscriber
 
 # POST https://my-api.bezeq.co.il/{{version}}/api/ElectricityTab/GetElectricityTab
 # {}

@@ -6,9 +6,9 @@ from typing import Any, Optional
 
 from aiohttp import ClientError, ClientResponse, ClientSession
 
-from my_bezeq.const import VERSION_URL
-from my_bezeq.exceptions import MyBezeqError, MyBezeqUnauthorizedError, MyBezeqVersionError
-from my_bezeq.models.base import BaseResponse
+from .const import VERSION_URL
+from .exceptions import MyBezeqError, MyBezeqUnauthorizedError, MyBezeqVersionError
+from .models.base import BaseResponse
 
 _LOGGER = logging.getLogger(__name__)
 

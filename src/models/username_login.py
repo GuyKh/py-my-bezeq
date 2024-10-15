@@ -3,7 +3,7 @@ from dataclasses import dataclass, field
 from mashumaro import DataClassDictMixin, field_options
 from mashumaro.config import BaseConfig
 
-from my_bezeq.models.base import BaseAuthResponse
+from .base import BaseAuthResponse
 
 
 @dataclass
