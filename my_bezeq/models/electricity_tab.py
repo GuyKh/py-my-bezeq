@@ -7,7 +7,7 @@ from mashumaro import DataClassDictMixin, field_options
 from mashumaro.config import BaseConfig
 from mashumaro.types import SerializationStrategy
 
-from .base import BaseResponse
+from .base import BaseClientResponse
 from .common import BaseCard, ElectSubscriber
 
 # POST https://my-api.bezeq.co.il/{{version}}/api/ElectricityTab/GetElectricityTab
@@ -196,7 +196,7 @@ class GetElectricityTabRequest(DataClassDictMixin):
 
 
 @dataclass
-class GetElectricityTabResponse(BaseResponse):
+class GetElectricityTabResponse(BaseClientResponse):
     cards: List[ElectricityCard] = field(default_factory=list, metadata=field_options(alias="Cards"))
     elect_subscribers: List[ElectSubscriber] = field(
         default_factory=list, metadata=field_options(alias="ElectSubscribers")

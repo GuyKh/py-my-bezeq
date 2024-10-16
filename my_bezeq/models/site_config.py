@@ -3,7 +3,7 @@ from typing import List
 
 from mashumaro import DataClassDictMixin, field_options
 
-from .base import BaseResponse
+from .base import BaseClientResponse
 
 # POST https://my-api.bezeq.co.il/{{version}}/api/GeneralActions/GetSiteConfig
 #
@@ -38,5 +38,5 @@ class Param(DataClassDictMixin):
 
 
 @dataclass
-class GetSiteConfigResponse(BaseResponse):
+class GetSiteConfigResponse(BaseClientResponse):
     params: List[Param] = field(default_factory=list, metadata=field_options(alias="Params"))

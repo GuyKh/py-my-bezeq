@@ -1,29 +1,34 @@
 import asyncio
 import calendar
+import logging
+import os
 from datetime import date, timedelta
 
 import aiohttp
 
 from my_bezeq import ElectricReportLevel, MyBezeqAPI
 
-# logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(level=logging.INFO)
 
 
 async def main():
     session = aiohttp.ClientSession(connector=aiohttp.TCPConnector(ssl=False), timeout=aiohttp.ClientTimeout(total=60))
+    username = os.environ['MY_BEZEQ_USERNAME'] or "12345"
+    password = os.environ['MY_BEZEQ_PASSWORD'] or "password"
 
     try:
-        api = MyBezeqAPI("1234", "pass", session)
+        api = MyBezeqAPI(username, password, session)
         # print(await api.get_site_config())
 
         await api.login()
         print("Logged in")
 
-        print(await api.get_dashboard_tab())
+        # print(await api.get_dashboard_tab())
         print(await api.get_feeds())
         print(await api.get_invoice_tab())
         print(await api.get_electric_invoice_tab())
-        print(await api.get_electricity_tab())
+        print(await api.get_electricity_tab("245206703"))
+        print(await api.get_customer_messages())
 
         today = date.today()
         last_day_of_month = calendar.monthrange(today.year, today.month)[1]

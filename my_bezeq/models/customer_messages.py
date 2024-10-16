@@ -14,7 +14,7 @@ from .base import BaseResponse
 @dataclass
 class GetCustomerMessagesResponse(BaseResponse):
     service_time_taken: Optional[int] = field(metadata=field_options(alias="ServiceTimeTaken"))
-    transaction_id: str = field(metadata=field_options(alias="TransactionId"))
+    transaction_id: str = field(metadata=field_options(alias="TransactionID"))
     push_msg_list: List = field(default_factory=list, metadata=field_options(alias="pushMsgList"))
     push_msg_codes_list: List = field(default_factory=list, metadata=field_options(alias="pushMsgCodesList"))
     message_cards: List = field(default_factory=list, metadata=field_options(alias="MessagesCards"))
