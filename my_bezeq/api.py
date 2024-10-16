@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import date, timedelta
 from typing import Optional
 from uuid import UUID
 
@@ -13,6 +13,7 @@ from .const import (
     ELECTRIC_INVOICES_URL,
     ELECTRIC_REPORT_BY_DAY_URL,
     ELECTRIC_REPORT_BY_MONTH_URL,
+    ELECTRIC_REPORT_BY_YEAR_URL,
     ELECTRICITY_TAB_URL,
     FEEDS_URL,
     INVOICES_URL,
@@ -51,7 +52,7 @@ class MyBezeqAPI:
     async def login(self) -> None:
         self._jwt_token = await username_login(self._session, self.user_id, self.password)
 
-    async def set_jwt(self, jwt_token: str) -> None:
+    def set_jwt(self, jwt_token: str) -> None:
         self._jwt_token = jwt_token
 
     async def get_site_config(self) -> GetSiteConfigResponse:
@@ -133,7 +134,7 @@ class MyBezeqAPI:
 
         req = GetElectricReportRequest(from_date, to_date, level)
 
-        if to_date < from_date:
+        if to_date < from_date and from_date - to_date > timedelta(days=1):
             raise MyBezeqError("from_date should be before to_date")
 
         url = ""
@@ -143,7 +144,7 @@ class MyBezeqAPI:
             case ElectricReportLevel.DAILY:
                 url = ELECTRIC_REPORT_BY_MONTH_URL
             case ElectricReportLevel.MONTHLY:
-                url = ELECTRIC_REPORT_BY_MONTH_URL
+                url = ELECTRIC_REPORT_BY_YEAR_URL
 
         res = await send_post_json_request(
                 self._session, self._jwt_token, url, json_data=req.to_dict(), use_auth=True

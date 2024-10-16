@@ -1,12 +1,12 @@
 import asyncio
-import logging
+import calendar
 from datetime import date, timedelta
 
 import aiohttp
 
 from my_bezeq import ElectricReportLevel, MyBezeqAPI
 
-logging.basicConfig(level=logging.DEBUG)
+# logging.basicConfig(level=logging.DEBUG)
 
 
 async def main():
@@ -25,9 +25,14 @@ async def main():
         print(await api.get_electric_invoice_tab())
         print(await api.get_electricity_tab())
 
-        yesterday = date.today() - timedelta(days=1)
-        print(await api.get_elec_usage_report(ElectricReportLevel.HOURLY, yesterday, yesterday))
-        print(await api.get_elec_usage_report(ElectricReportLevel.DAILY, yesterday, yesterday))
+        today = date.today()
+        last_day_of_month = calendar.monthrange(today.year, today.month)[1]
+
+        print(await api.get_elec_usage_report(ElectricReportLevel.HOURLY, today - timedelta(days=5),
+                                               today - timedelta(days=4)))
+        print(await api.get_elec_usage_report(ElectricReportLevel.DAILY, today.replace(day=1),
+                                              today.replace(day=last_day_of_month)))
+        print(await api.get_elec_usage_report(ElectricReportLevel.MONTHLY, today + timedelta(days=1), today))
 
 
     finally:
