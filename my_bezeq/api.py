@@ -51,6 +51,9 @@ class MyBezeqAPI:
     async def login(self) -> None:
         self._jwt_token = await username_login(self._session, self.user_id, self.password)
 
+    async def set_jwt(self, jwt_token: str) -> None:
+        self._jwt_token = jwt_token
+
     async def get_site_config(self) -> GetSiteConfigResponse:
         return GetSiteConfigResponse.from_dict(
             await send_post_json_request(self._session, None, SITE_CONFIG_URL, json_data={}, use_auth=False)
