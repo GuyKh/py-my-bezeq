@@ -1,3 +1,4 @@
+import logging
 from datetime import date, timedelta
 from typing import Optional
 from uuid import UUID
@@ -36,6 +37,7 @@ from .models.feeds import GetFeedsResponse
 from .models.invoice import GetInvoicesTabResponse
 from .models.site_config import GetSiteConfigResponse
 
+_LOGGER = logging.getLogger(__name__)
 
 class MyBezeqAPI:
     def __init__(self, user_id, password, session: Optional[ClientSession] = None):
@@ -48,12 +50,20 @@ class MyBezeqAPI:
 
         self._jwt_token = None
         self._subscriber_number = None
+        self._is_dashboard_called = False
 
     async def login(self) -> None:
         self._jwt_token = await username_login(self._session, self.user_id, self.password)
+        self._is_dashboard_called = False
 
     def set_jwt(self, jwt_token: str) -> None:
         self._jwt_token = jwt_token
+        self._is_dashboard_called = False
+
+    def _require_dashboard_first(self):
+        if not self._is_dashboard_called:
+            raise MyBezeqError("get_dashboard_tab() should be called before calling this method," +\
+                            "Otherwise you may get empty data")
 
     async def get_site_config(self) -> GetSiteConfigResponse:
         return GetSiteConfigResponse.from_dict(
@@ -75,9 +85,12 @@ class MyBezeqAPI:
             elif len(res.customer_details.available_subscribers) > 0:
                 self._subscriber_number = res.customer_details.available_subscribers[0].subscriber_no
 
+        self._is_dashboard_called = True
         return res
 
     async def get_invoice_tab(self):
+        self._require_dashboard_first()
+
         return GetInvoicesTabResponse.from_dict(
             await send_post_json_request(self._session, self._jwt_token, INVOICES_URL, use_auth=True)
         )
@@ -101,6 +114,8 @@ class MyBezeqAPI:
         return await response.read()
 
     async def get_electric_invoice_tab(self):
+        self._require_dashboard_first()
+
         return GetElectricInvoiceTabResponse.from_dict(
             await send_post_json_request(self._session, self._jwt_token, ELECTRIC_INVOICES_URL, use_auth=True)
         )
@@ -111,6 +126,8 @@ class MyBezeqAPI:
 
         if not subscriber_number:
             raise MyBezeqError("Subscriber number is required")
+
+        self._require_dashboard_first()
 
         req = GetElectricityTabRequest(self._jwt_token, str(subscriber_number))
         res = GetElectricityTabResponse.from_dict(
@@ -126,6 +143,7 @@ class MyBezeqAPI:
 
     async def get_elec_usage_report(self, level: ElectricReportLevel, from_date: date | str, to_date: date | str)\
             -> GetDailyElectricReportResponse | GetMonthlyElectricReportResponse | GetYearlyElectricReportResponse:
+        self._require_dashboard_first()
 
         if isinstance(from_date, str): # "2024-10-10"
             from_date = date.fromisoformat(from_date)

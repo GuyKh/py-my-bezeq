@@ -7,7 +7,7 @@ from mashumaro import DataClassDictMixin, field_options
 from mashumaro.config import BaseConfig
 from mashumaro.types import SerializationStrategy
 
-from .base import BaseResponse
+from .base import BaseClientResponse
 
 # POST https://my-api.bezeq.co.il/{{version}}/api/ElectricityTab/GetElectReportByYear
 # {
@@ -139,7 +139,7 @@ class MonthlyUsage(UsageRecordBase, DataClassDictMixin):
 
 
 @dataclass
-class GetYearlyElectricReportResponse(BaseResponse):
+class GetYearlyElectricReportResponse(BaseClientResponse):
     usage_data: Optional[List[MonthlyUsage]] = field(default_factory=list, metadata=field_options(alias="UsageData"))
 
 
@@ -152,7 +152,7 @@ class DailyUsage(UsageRecordBase, DataClassDictMixin):
         return f"DailyUsage({self.usage_day.date()}: {self.sum_all_day})"
 
 @dataclass
-class GetMonthlyElectricReportResponse(BaseResponse):
+class GetMonthlyElectricReportResponse(BaseClientResponse):
     usage_month: int = field(metadata=field_options(alias="UsageMonth"))
     sum_all: Optional[float] = field(metadata=field_options(alias="SumAll"))
     usage_data: Optional[List[DailyUsage]] = field(default_factory=list, metadata=field_options(alias="UsageData"))
@@ -168,7 +168,7 @@ class HourlyUsage(UsageRecordBase, DataClassDictMixin):
 
 
 @dataclass
-class GetDailyElectricReportResponse(BaseResponse):
+class GetDailyElectricReportResponse(BaseClientResponse):
     usage_day: int = field(metadata=field_options(alias="UsageDay"))
     sum_all: Optional[float] = field(metadata=field_options(alias="SumAll"))
     usage_data: Optional[List[HourlyUsage]] = field(default_factory=list, metadata=field_options(alias="UsageData"))
