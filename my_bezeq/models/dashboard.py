@@ -1,11 +1,14 @@
+import logging
 from dataclasses import dataclass, field
 from typing import List, Optional
 
 from mashumaro import DataClassDictMixin, field_options
 from mashumaro.config import BaseConfig
 
+from my_bezeq.models.cards import DetailedCard
+
 from .base import BaseAuthResponse
-from .common import BaseCard, BaseEntity, ElectSubscriber
+from .common import BaseEntity, ElectSubscriber
 
 # POST https://my-api.bezeq.co.il/{{version}}/api/Dashboard/GetDashboard
 # {"PhoneNumber":""}
@@ -113,6 +116,8 @@ from .common import BaseCard, BaseEntity, ElectSubscriber
 #     "ClientErrorMessage": ""
 # }
 
+_LOGGER = logging.getLogger(__name__)
+
 
 @dataclass
 class GetDashboardRequest(DataClassDictMixin):
@@ -120,11 +125,6 @@ class GetDashboardRequest(DataClassDictMixin):
 
     class Config(BaseConfig):
         serialize_by_alias = True
-
-
-@dataclass
-class DashboardCard(BaseCard):
-    card_details: Optional[str] = field(metadata=field_options(alias="CardDetails"))
 
 
 @dataclass
@@ -205,6 +205,6 @@ class GetDashboardResponse(BaseAuthResponse):
     technician_details: TechnicianDetail = field(metadata=field_options(alias="TechnicianDetails"))
     cm_details: CmDetail = field(metadata=field_options(alias="CmDetails"))
     show_elect_logo: bool = field(metadata=field_options(alias="ShowElectLogo"))
-    cards: List[DashboardCard] = field(default_factory=list, metadata=field_options(alias="Cards"))
+    cards: Optional[List[DetailedCard]] = field(default_factory=list, metadata=field_options(alias="Cards"))
     tabs: List[Tab] = field(default_factory=list, metadata=field_options(alias="Tabs"))
     bars: List[Bar] = field(default_factory=list, metadata=field_options(alias="Bars"))
