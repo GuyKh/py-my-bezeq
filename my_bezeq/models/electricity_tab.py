@@ -1,14 +1,14 @@
-import json
+import logging
 from dataclasses import dataclass, field
-from datetime import datetime
-from typing import List, Optional, Union
+from typing import List, Optional
 
 from mashumaro import DataClassDictMixin, field_options
 from mashumaro.config import BaseConfig
-from mashumaro.types import SerializationStrategy
+
+from my_bezeq.models.cards import DetailedCard
 
 from .base import BaseClientResponse
-from .common import BaseCard, ElectSubscriber
+from .common import ElectSubscriber
 
 # POST https://my-api.bezeq.co.il/{{version}}/api/ElectricityTab/GetElectricityTab
 # {}
@@ -132,59 +132,7 @@ from .common import BaseCard, ElectSubscriber
 #     "ClientErrorMessage": ""
 # }
 
-
-class FormattedElectricTabDate(SerializationStrategy):
-    def serialize(self, value: datetime) -> str:
-        return f"/Date({str(int(value.timestamp()) * 100)})/"
-
-    def deserialize(self, value: str) -> datetime:
-        return datetime.fromtimestamp(int(value[6:-2]) // 1000)
-
-
-@dataclass
-class ElectricityPackageDetails(DataClassDictMixin):
-    description: str = field(metadata=field_options(alias="Description"))
-    package_name: str = field(metadata=field_options(alias="PackageName"))
-    discount: str = field(metadata=field_options(alias="Discount"))
-
-
-@dataclass
-class ElectricityMonthlyUsedDetails(DataClassDictMixin):
-    used_amount: int = field(metadata=field_options(alias="UsedAmount"))
-    from_date: datetime = field(metadata=field_options(alias="FromDate"))
-
-    class Config(BaseConfig):
-        serialize_by_alias = True
-        serialization_strategy = {datetime: FormattedElectricTabDate()}
-
-
-@dataclass
-class ElectricityPayerDetails(DataClassDictMixin):
-    contract_number: str = field(metadata=field_options(alias="ContractNumber"))
-    counter_number: str = field(metadata=field_options(alias="CounterNumber"))
-    have_mone_bsisi: bool = field(metadata=field_options(alias="HaveMoneBsisi"))
-
-
-@dataclass
-class ElectricityCard(BaseCard):
-    card_details: Optional[Union[ElectricityPackageDetails, ElectricityMonthlyUsedDetails, ElectricityPayerDetails]] = (
-        None  # This will hold the deserialized nested JSON
-    )
-
-    def __post_init__(self):
-        # Automatically deserialize known CardDetails JSON strings
-        if isinstance(self.card_details, str):
-            try:
-                card_details_dict = json.loads(self.card_details)
-                if self.card_type == "ElectricityMyPackageService":
-                    self.card_details = ElectricityPackageDetails.from_dict(card_details_dict)
-                elif self.card_type == "ElectricityMonthlyUsed":
-                    self.card_details = ElectricityMonthlyUsedDetails.from_dict(card_details_dict)
-                elif self.card_type == "ElectricityPayer":
-                    self.card_details = ElectricityPayerDetails.from_dict(card_details_dict)
-            except json.JSONDecodeError:
-                self.card_details = None  # In case it's not valid JSON
-
+_LOGGER = logging.getLogger(__name__)
 
 @dataclass
 class GetElectricityTabRequest(DataClassDictMixin):
@@ -197,7 +145,7 @@ class GetElectricityTabRequest(DataClassDictMixin):
 
 @dataclass
 class GetElectricityTabResponse(BaseClientResponse):
-    cards: List[ElectricityCard] = field(default_factory=list, metadata=field_options(alias="Cards"))
+    cards: Optional[List[DetailedCard]] = field(default_factory=list, metadata=field_options(alias="Cards"))
     elect_subscribers: List[ElectSubscriber] = field(
         default_factory=list, metadata=field_options(alias="ElectSubscribers")
     )

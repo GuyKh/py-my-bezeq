@@ -3,8 +3,9 @@ from typing import List, Optional
 
 from mashumaro import field_options
 
+from my_bezeq.models.cards import DetailedCard
+
 from .base import BaseAuthResponse
-from .common import BaseCard
 
 # POST https://my-api.bezeq.co.il/{{version}}/api/InvoicesTab/GetInvoicesTab
 #
@@ -29,4 +30,4 @@ class GetInvoicesTabResponse(BaseAuthResponse):
     customer_type: Optional[str] = field(metadata=field_options(alias="CustomerType"))
     current_ben: int = field(metadata=field_options(alias="CurrentBen"))
     bens: Optional[str] = field(metadata=field_options(alias="Bens"))
-    cards: List[BaseCard] = field(default_factory=list, metadata=field_options(alias="Cards"))
+    cards: Optional[List[DetailedCard]] = field(default_factory=list, metadata=field_options(alias="Cards"))

@@ -1,11 +1,12 @@
-import json
+import logging
 from dataclasses import dataclass, field
 from typing import List, Optional
 
-from mashumaro import DataClassDictMixin, field_options
+from mashumaro import field_options
+
+from my_bezeq.models.cards import DetailedCard
 
 from .base import BaseAuthResponse
-from .common import BaseCard
 
 # POST https://my-api.bezeq.co.il/{{version}}/api/InvoicesTab/GetElectInvoiceTab
 #
@@ -46,34 +47,7 @@ from .common import BaseCard
 #     "ClientErrorMessage": ""
 # }
 
-
-@dataclass
-class Invoice(DataClassDictMixin):
-    invoice_id: str = field(metadata=field_options(alias="InvoiceId"))
-    date_period: str = field(metadata=field_options(alias="DatePeriod"))
-    sum: float = field(metadata=field_options(alias="Sum"))
-    invoice_number: str = field(metadata=field_options(alias="InvoiceNumber"))
-    is_payed: Optional[bool] = field(metadata=field_options(alias="IsPayed"))
-    pay_url: Optional[str] = field(metadata=field_options(alias="PayUrl"))
-    payer_number: int = field(metadata=field_options(alias="PayerNumber"))
-
-
-@dataclass
-class CardDetails(DataClassDictMixin):
-    have_hok: bool = field(metadata=field_options(alias="HaveHok"))
-    pay_url: Optional[str] = field(metadata=field_options(alias="PayUrl"))
-    invoices: List[Invoice] = field(default_factory=list, metadata=field_options(alias="Invoices"))
-
-
-@dataclass
-class ElectricInvoiceCard(BaseCard):
-    card_details: Optional[CardDetails] = None  # We'll manually set this
-
-    def __post_init__(self):
-        # Deserialize `card_details` field from a JSON string to a `CardDetails` object
-        if isinstance(self.card_details, str):
-            self.card_details = CardDetails.from_dict(json.loads(self.card_details))
-
+_LOGGER = logging.getLogger(__name__)
 
 @dataclass
 class GetElectricInvoiceTabResponse(BaseAuthResponse):
@@ -81,4 +55,4 @@ class GetElectricInvoiceTabResponse(BaseAuthResponse):
     customer_type: Optional[str] = field(metadata=field_options(alias="CustomerType"))
     current_ben: int = field(metadata=field_options(alias="CurrentBen"))
     bens: Optional[str] = field(metadata=field_options(alias="Bens"))
-    cards: List[ElectricInvoiceCard] = field(default_factory=list, metadata=field_options(alias="Cards"))
+    cards: Optional[List[DetailedCard]] = field(default_factory=list, metadata=field_options(alias="Cards"))

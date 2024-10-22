@@ -5,7 +5,8 @@ from typing import List, Optional
 
 from mashumaro import DataClassDictMixin, field_options
 from mashumaro.config import BaseConfig
-from mashumaro.types import SerializationStrategy
+
+from my_bezeq.models.common import FormattedDate
 
 from .base import BaseClientResponse
 
@@ -93,17 +94,6 @@ from .base import BaseClientResponse
 #   "ErrorMessage": "",
 #   "ClientErrorMessage": ""
 # }
-
-
-class FormattedDate(SerializationStrategy):
-    def __init__(self, fmt):
-        self.fmt = fmt
-
-    def serialize(self, value: date) -> str:
-        return value.strftime(self.fmt)
-
-    def deserialize(self, value: str) -> date:
-        return datetime.strptime(value, self.fmt).date()
 
 
 class ElectricReportLevel(Enum):
