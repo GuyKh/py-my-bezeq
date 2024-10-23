@@ -18,6 +18,7 @@ from .auth_api import AuthApi
 
 _LOGGER = logging.getLogger(__name__)
 
+
 class MyBezeqAPI:
     def __init__(self, user_id, password, session: Optional[ClientSession] = None):
         self.user_id = user_id
@@ -44,5 +45,3 @@ class MyBezeqAPI:
     def set_jwt(self, jwt_token: str) -> None:
         self._state.jwt_token = jwt_token
         self._state.is_dashboard_called = False
-
-

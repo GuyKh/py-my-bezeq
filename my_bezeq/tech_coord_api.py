@@ -7,6 +7,7 @@ from my_bezeq.models.time_windows import GetTimeWindowsResponse
 
 _LOGGER = logging.getLogger(__name__)
 
+
 class TechCoordApi:
     def __init__(self, state: ApiState):
         self._state = state
@@ -15,6 +16,5 @@ class TechCoordApi:
         self._state.require_dashboard_first()
 
         return GetTimeWindowsResponse.from_dict(
-            await send_post_json_request(self._state.session, self._state.jwt_token, TIME_WINDOWS_URL,
-                                         use_auth=True)
+            await send_post_json_request(self._state.session, self._state.jwt_token, TIME_WINDOWS_URL, use_auth=True)
         )

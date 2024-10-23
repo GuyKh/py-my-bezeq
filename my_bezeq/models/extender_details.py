@@ -17,6 +17,7 @@ from my_bezeq.models.cards import CardDetailsResponse
 #     "ClientErrorMessage": ""
 # }
 
+
 @dataclass
 class GetExtendersDetailsResponse(CardDetailsResponse, BaseClientResponse):
-        link: str = field(metadata=field_options(alias="Link"))
+    link: str = field(metadata=field_options(alias="Link"))

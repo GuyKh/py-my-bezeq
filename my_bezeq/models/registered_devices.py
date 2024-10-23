@@ -68,13 +68,13 @@ from .common import FormattedFloatTimestamp
 # }
 
 
-
 @dataclass
 class GetRegisteredDevicesRequest(DataClassDictMixin):
     recipient_number: list[str] = field(default_factory=list, metadata=field_options(alias="MacList"))
 
     class Config(BaseConfig):
         serialize_by_alias = True
+
 
 @dataclass
 class RegisteredDevice(DataClassDictMixin):
@@ -102,8 +102,10 @@ class RegisteredDevice(DataClassDictMixin):
     device_name_to_display: str = field(metadata=field_options(alias="DeviceNameToDisplay"))
     device_product: Optional[str] = field(metadata=field_options(alias="DeviceProduct"))
 
+
 @dataclass
 class GetRegisteredDevicesResponse(BaseClientResponse):
-    registered_devices: List[RegisteredDevice] = field(default_factory=list,
-                                                       metadata=field_options(alias="RegisteredDevices"))
+    registered_devices: List[RegisteredDevice] = field(
+        default_factory=list, metadata=field_options(alias="RegisteredDevices")
+    )
     registered_smartphones: List = field(default_factory=list, metadata=field_options(alias="RegisteredSmartphones"))

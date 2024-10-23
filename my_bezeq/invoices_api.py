@@ -1,4 +1,3 @@
-
 from uuid import UUID
 
 from my_bezeq.api_state import ApiState
@@ -24,15 +23,14 @@ class InvoicesApi:
             await send_post_json_request(self._state.session, self._state.jwt_token, INVOICES_URL, use_auth=True)
         )
 
-
     async def get_electric_invoice_tab(self):
         self._state.require_dashboard_first()
 
         return GetElectricInvoiceTabResponse.from_dict(
-            await send_post_json_request(self._state.session, self._state.jwt_token, ELECTRIC_INVOICES_URL,
-                                         use_auth=True)
+            await send_post_json_request(
+                self._state.session, self._state.jwt_token, ELECTRIC_INVOICES_URL, use_auth=True
+            )
         )
-
 
     async def get_invoice_pdf(self, invoice_id: UUID | str) -> bytes:
         """Get Invoice PDF response from My Bezeq API."""
@@ -40,8 +38,7 @@ class InvoicesApi:
 
         self._state.require_dashboard_first()
         response = await send_get_request(
-            self._state.session, GET_INVOICES_PDF_URL.format(invoice_id=invoice_id,
-                                                                  jwt_token=self._state.jwt_token)
+            self._state.session, GET_INVOICES_PDF_URL.format(invoice_id=invoice_id, jwt_token=self._state.jwt_token)
         )
         return await response.read()
 
@@ -51,7 +48,6 @@ class InvoicesApi:
 
         self._state.require_dashboard_first()
         response = await send_get_request(
-            self._state.session, GET_INVOICES_EXCEL_URL.format(invoice_id=invoice_id,
-                                                                  jwt_token=self._state.jwt_token)
+            self._state.session, GET_INVOICES_EXCEL_URL.format(invoice_id=invoice_id, jwt_token=self._state.jwt_token)
         )
         return await response.read()

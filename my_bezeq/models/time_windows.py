@@ -16,6 +16,7 @@ from my_bezeq.models.base import BaseAuthResponse
 #     "ClientErrorMessage": ""
 # }
 
+
 @dataclass
 class GetTimeWindowsResponse(BaseAuthResponse):
     time_frames: Optional[list] = field(metadata=field_options(alias="TimesFrames"))

@@ -1,4 +1,3 @@
-
 from dataclasses import dataclass, field
 from uuid import UUID
 
@@ -20,12 +19,14 @@ from my_bezeq.models.base import BaseClientResponse
 #     "ClientErrorMessage": ""
 # }
 
+
 @dataclass
 class GenGlassixTokenRequest(BaseClientResponse):
     action: str = field(metadata=field_options(alias="Action"))
 
     class Config(BaseConfig):
         serialize_by_alias = True
+
 
 @dataclass
 class GenGlassixTokenResponse(BaseClientResponse):

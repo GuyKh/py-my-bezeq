@@ -141,6 +141,7 @@ class DailyUsage(UsageRecordBase, DataClassDictMixin):
     def __repr__(self):
         return f"DailyUsage({self.usage_day.date()}: {self.sum_all_day})"
 
+
 @dataclass
 class GetMonthlyElectricReportResponse(BaseClientResponse):
     usage_month: int = field(metadata=field_options(alias="UsageMonth"))

@@ -17,6 +17,7 @@ from my_bezeq.models.cards import CardDetailsResponse
 #     "ClientErrorMessage": ""
 # }
 
+
 @dataclass
 class GetSpeedTestCard(CardDetailsResponse, BaseClientResponse):
-        pass  # No additional content
+    pass  # No additional content

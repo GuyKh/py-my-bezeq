@@ -10,6 +10,7 @@ from .models.username_login import UsernameLoginRequest, UsernameLoginResponse
 
 _LOGGER = logging.getLogger(__name__)
 
+
 class AuthApi:
     def __init__(self, state: ApiState):
         self._state = state
@@ -37,6 +38,8 @@ class AuthApi:
         self._state.require_dashboard_first()
 
         req = GenGlassixTokenRequest(action_id)
-        return GenGlassixTokenResponse(await send_post_json_request(self._state.session, None,
-                                                                   GEN_GLASSIX_TOKEN_URL, json_data=req.to_dict(),
-                                                                   use_auth=False))
+        return GenGlassixTokenResponse(
+            await send_post_json_request(
+                self._state.session, None, GEN_GLASSIX_TOKEN_URL, json_data=req.to_dict(), use_auth=False
+            )
+        )

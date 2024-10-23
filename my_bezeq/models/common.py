@@ -33,8 +33,6 @@ class ServiceType(Enum):
     WIFI_DETAILS = "WifiDetails"
 
 
-
-
 @dataclass
 class ElectSubscriber(DataClassDictMixin):
     subscriber: str = field(metadata=field_options(alias="Subscriber"))
@@ -76,12 +74,14 @@ class FormattedDate(SerializationStrategy):
     def deserialize(self, value: str) -> date:
         return datetime.strptime(value, self.fmt).date()
 
+
 class FormattedFloatTimestamp(SerializationStrategy):
     def serialize(self, value: datetime) -> float:
         return value.timestamp()
 
     def deserialize(self, value: float) -> datetime:
         return datetime.fromtimestamp(value)
+
 
 class FormattedDateTime(SerializationStrategy):
     def __init__(self, fmt):

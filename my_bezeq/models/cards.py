@@ -1,4 +1,3 @@
-
 import json
 import logging
 from dataclasses import dataclass, field
@@ -13,12 +12,14 @@ from my_bezeq.models.common import BaseCard, ServiceType
 
 _LOGGER = logging.getLogger(__name__)
 
+
 class FormattedElectricTabDate(SerializationStrategy):
     def serialize(self, value: datetime) -> str:
         return f"/Date({str(int(value.timestamp()) * 100)})/"
 
     def deserialize(self, value: str) -> datetime:
         return datetime.fromtimestamp(int(value[6:-2]) // 1000)
+
 
 class BaseCardDetails(DataClassDictMixin):
     @classmethod
@@ -38,6 +39,7 @@ class ElectricityMyPackageServiceCard(BaseCardDetails):
         """Decode JSON string for Personal card details"""
         decoded_data = json.loads(data)
         return cls.from_dict(decoded_data)
+
 
 @dataclass
 class ElectricityMonthlyUsedCard(BaseCardDetails):
@@ -67,6 +69,7 @@ class ElectricityPayerCard(BaseCardDetails):
         decoded_data = json.loads(data)
         return cls.from_dict(decoded_data)
 
+
 @dataclass
 class ElectricityPackageCard(DataClassDictMixin):
     description: str = field(metadata=field_options(alias="Description"))
@@ -91,6 +94,7 @@ class User(DataClassDictMixin):
     contact_mobile_number: str = field(metadata=field_options(alias="ContactMobileNumber"))
     login_by_otp_only: bool = field(metadata=field_options(alias="LoginByOtpOnly"))
 
+
 @dataclass
 class PersonalCard(BaseCardDetails):
     user: User = field(metadata=field_options(alias="User"))
@@ -102,6 +106,7 @@ class PersonalCard(BaseCardDetails):
         decoded_data = json.loads(data)
         return cls.from_dict(decoded_data)
 
+
 @dataclass
 class Invoice(DataClassDictMixin):
     invoice_id: str = field(metadata=field_options(alias="InvoiceId"))
@@ -112,10 +117,11 @@ class Invoice(DataClassDictMixin):
     is_payed: Optional[bool] = field(default=None, metadata=field_options(alias="IsPayed"))
     pay_url: Optional[str] = field(default=None, metadata=field_options(alias="PayUrl"))
 
+
 @dataclass
 class InvoicesCard(BaseCardDetails):
     invoices: list[Invoice] = field(metadata=field_options(alias="Invoices"))
-    have_hok: bool = field(metadata=field_options(alias="HaveHok")) # Have Hora'a Keva (Standing order)
+    have_hok: bool = field(metadata=field_options(alias="HaveHok"))  # Have Hora'a Keva (Standing order)
     pay_url: Optional[str] = field(default=None, metadata=field_options(alias="PayUrl"))
 
     @classmethod
@@ -123,6 +129,7 @@ class InvoicesCard(BaseCardDetails):
         """Decode JSON string for Invoice card details"""
         decoded_data = json.loads(data)
         return cls.from_dict(decoded_data)
+
 
 @dataclass
 class InvoiceListCard(BaseCardDetails):
@@ -168,6 +175,7 @@ class Buffer(DataClassDictMixin):
     period_name: str = field(metadata=field_options(alias="PeriodName"))
     used_units_percent: str = field(metadata=field_options(alias="UsedUnitsPercent"))
 
+
 @dataclass
 class PhoneCard(BaseCardDetails):
     buffers: Optional[list[Buffer]] = field(metadata=field_options(alias="Buffers"))
@@ -178,6 +186,7 @@ class PhoneCard(BaseCardDetails):
         decoded_data = json.loads(data)
         return cls.from_dict(decoded_data)
 
+
 @dataclass
 class CallRecord(DataClassDictMixin):
     call_log_type: int = field(metadata=field_options(alias="CallLogType"))
@@ -186,6 +195,7 @@ class CallRecord(DataClassDictMixin):
     call_log_phone_num: str = field(metadata=field_options(alias="CallLogPhoneNum"))
     call_log_time: str = field(metadata=field_options(alias="CallLogTime"))
     call_log_duration: str = field(metadata=field_options(alias="CallLogDuration"))
+
 
 @dataclass
 class CallListCard(BaseCardDetails):
@@ -198,6 +208,7 @@ class CallListCard(BaseCardDetails):
         """Decode JSON string for CallLog card details"""
         decoded_data = json.loads(data)
         return cls.from_dict(decoded_data)
+
 
 @dataclass
 class AdditionalServicesCard(BaseCardDetails):
@@ -216,16 +227,16 @@ class SpeedTestCard(BaseCardDetails):
     is_speed_ok: bool = field(metadata=field_options(alias="IsSpeedOk"))
     is_speed_test_slow: bool = field(metadata=field_options(alias="IsSpeedTestSlow"))
     is_speed_test_error: bool = field(metadata=field_options(alias="IsSpeedTestError"))
-    average_speed: Optional[float] = field(default=None, metadata=field_options(alias="AverageSpeed"))
     ookla_link: str = field(metadata=field_options(alias="OoklaLink"))
+    average_speed: Optional[float] = field(default=None, metadata=field_options(alias="AverageSpeed"))
     glassix_speed_test_code: Optional[str] = field(default=None, metadata=field_options(alias="GlassixSpeedTestCode"))
-
 
     @classmethod
     def decode(cls, data: str) -> "CallListCard":
         """Decode JSON string for CallLog card details"""
         decoded_data = json.loads(data)
         return cls.from_dict(decoded_data)
+
 
 @dataclass
 class DetailedCard(BaseCard):
@@ -244,6 +255,7 @@ class DetailedCard(BaseCard):
             except Exception as e:
                 _LOGGER.error(f"Failed to deserialize card details: {self.card_details} - {e}")
 
+
 @dataclass
 class CardDetailsResponse(DataClassDictMixin):
     service_type: Optional[ServiceType] = field(metadata=field_options(alias="ServiceType"))
@@ -260,6 +272,7 @@ class CardDetailsResponse(DataClassDictMixin):
                     self.card_details = card_details_class.decode(card_details)
             except Exception as e:
                 _LOGGER.error(f"Failed to deserialize card details: {self.card_details} - {e}")
+
 
 SERVICE_TYPE_TO_CLASS: dict[str, Type[BaseCardDetails]] = {
     ServiceType.ADDITIONAL_SERVICE: AdditionalServicesCard,

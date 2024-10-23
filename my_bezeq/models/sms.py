@@ -26,6 +26,7 @@ class SendSMSRequest(DataClassDictMixin):
             NoneType: lambda _: "",
         }
 
+
 @dataclass
 class SendSMSResponse(BaseResponse):
     message: str = field(metadata=field_options(alias="Message"))
