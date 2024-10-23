@@ -17,7 +17,7 @@ api = MyBezeqAPI("1234", "password")
 await api.login()
 print("Logged in")
 
-print(await api.get_dashboard_tab())
+print(await api.dasboard.get_dashboard_tab())
 ```
 
 ## Technology and Resources

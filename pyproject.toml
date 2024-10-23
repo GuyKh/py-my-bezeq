@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "py-my-bezeq"
-version = "0.1.0"
+version = "0.1.1"
 description = "Bezeq API wrapper for my-bezeq interface"
 authors = ["Guy Khmelnitsky <guykhmel@gmail.com>"]
 license = "MIT"
@@ -13,7 +13,7 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.11"
-aiohttp = "^3.10.10"
+aiohttp = "^3.9.5"
 mashumaro = "^3.13.1"
 
 [tool.poetry.dev-dependencies]
