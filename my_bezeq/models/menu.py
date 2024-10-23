@@ -10,20 +10,21 @@ from my_bezeq.models.base import BaseClientResponse
 class MenuChildItem(DataClassDictMixin):
     id: int = field(metadata=field_options(alias="id"))
     display_name: str = field(metadata=field_options(alias="displayName"))
-    picture: Optional[str] = field(default=None, metadata=field_options(alias="picture"))
     link: str = field(metadata=field_options(alias="link"))
     order: int = field(metadata=field_options(alias="order"))
-    menu_child_items: Optional[List["MenuChildItem"]] = field(default=None,
-                                                              metadata=field_options(alias="menuChildItems"))
+    picture: Optional[str] = field(default=None, metadata=field_options(alias="picture"))
+    menu_child_items: Optional[List["MenuChildItem"]] = field(
+        default=None, metadata=field_options(alias="menuChildItems")
+    )
 
 
 @dataclass
 class MenuItem(DataClassDictMixin):
     id: int = field(metadata=field_options(alias="id"))
     display_name: str = field(metadata=field_options(alias="displayName"))
-    picture: Optional[str] = field(default=None, metadata=field_options(alias="picture"))
     link: str = field(metadata=field_options(alias="link"))
     order: int = field(metadata=field_options(alias="order"))
+    picture: Optional[str] = field(default=None, metadata=field_options(alias="picture"))
     menu_child_items: List[MenuChildItem] = field(default_factory=list, metadata=field_options(alias="menuChildItems"))
 
 

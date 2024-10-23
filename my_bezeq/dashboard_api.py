@@ -11,6 +11,7 @@ from .commons import send_post_json_request
 
 _LOGGER = logging.getLogger(__name__)
 
+
 class DashboardApi:
     def __init__(self, state: ApiState):
         self._state = state
@@ -33,14 +34,13 @@ class DashboardApi:
         self._state.is_dashboard_called = True
         return res
 
-
     async def get_customer_messages(self):
         self._state.require_dashboard_first()
         return GetCustomerMessagesResponse.from_dict(
-            await send_post_json_request(self._state.session, self._state.jwt_token, CUSTOMER_MESSAGES_URL,
-                                         use_auth=True)
+            await send_post_json_request(
+                self._state.session, self._state.jwt_token, CUSTOMER_MESSAGES_URL, use_auth=True
+            )
         )
-
 
     async def get_card_data(self, service_type: ServiceType | str):
         self._state.require_dashboard_first()
@@ -48,6 +48,5 @@ class DashboardApi:
 
         GetCardDataRequest(service_type)
         return GetCardDataResponse.from_dict(
-            await send_post_json_request(self._state.session, self._state.jwt_token, CARD_DATA_URL,
-                                         use_auth=True)
+            await send_post_json_request(self._state.session, self._state.jwt_token, CARD_DATA_URL, use_auth=True)
         )

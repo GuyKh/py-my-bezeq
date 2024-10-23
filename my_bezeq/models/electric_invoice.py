@@ -49,6 +49,7 @@ from .base import BaseAuthResponse
 
 _LOGGER = logging.getLogger(__name__)
 
+
 @dataclass
 class GetElectricInvoiceTabResponse(BaseAuthResponse):
     phone_number: Optional[str] = field(metadata=field_options(alias="PhoneNumber"))

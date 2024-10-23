@@ -41,4 +41,4 @@ class GetCardDataRequest(DataClassDictMixin):
 
 @dataclass
 class GetCardDataResponse(CardDetailsResponse, BaseClientResponse):
-        pass  # No additional content
+    pass  # No additional content

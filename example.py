@@ -13,8 +13,8 @@ logging.basicConfig(level=logging.INFO)
 
 async def main():
     session = aiohttp.ClientSession(connector=aiohttp.TCPConnector(ssl=False), timeout=aiohttp.ClientTimeout(total=60))
-    username = os.environ['MY_BEZEQ_USERNAME'] or "12345"
-    password = os.environ['MY_BEZEQ_PASSWORD'] or "password"
+    username = os.environ["MY_BEZEQ_USERNAME"] or "12345"
+    password = os.environ["MY_BEZEQ_PASSWORD"] or "password"
 
     try:
         api = MyBezeqAPI(username, password, session)
@@ -33,12 +33,17 @@ async def main():
         today = date.today()
         last_day_of_month = calendar.monthrange(today.year, today.month)[1]
 
-        print(await api.electric.get_elec_usage_report(ElectricReportLevel.HOURLY, today - timedelta(days=5),
-                                               today - timedelta(days=4)))
-        print(await api.electric.get_elec_usage_report(ElectricReportLevel.DAILY, today.replace(day=1),
-                                              today.replace(day=last_day_of_month)))
+        print(
+            await api.electric.get_elec_usage_report(
+                ElectricReportLevel.HOURLY, today - timedelta(days=5), today - timedelta(days=4)
+            )
+        )
+        print(
+            await api.electric.get_elec_usage_report(
+                ElectricReportLevel.DAILY, today.replace(day=1), today.replace(day=last_day_of_month)
+            )
+        )
         print(await api.electric.get_elec_usage_report(ElectricReportLevel.MONTHLY, today + timedelta(days=1), today))
-
 
     finally:
         await session.close()

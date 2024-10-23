@@ -1,4 +1,3 @@
-
 from datetime import date, timedelta
 from typing import Optional
 
@@ -25,7 +24,6 @@ class ElectricApi:
     def __init__(self, state: ApiState):
         self._state = state
 
-
     async def get_electricity_tab(self, subscriber_number: Optional[int | str] = None):
         if not subscriber_number:
             subscriber_number = self._state.subscriber_number
@@ -47,13 +45,14 @@ class ElectricApi:
 
         return res
 
-    async def get_elec_usage_report(self, level: ElectricReportLevel, from_date: date | str, to_date: date | str)\
-            -> GetDailyElectricReportResponse | GetMonthlyElectricReportResponse | GetYearlyElectricReportResponse:
+    async def get_elec_usage_report(
+        self, level: ElectricReportLevel, from_date: date | str, to_date: date | str
+    ) -> GetDailyElectricReportResponse | GetMonthlyElectricReportResponse | GetYearlyElectricReportResponse:
         self._state.require_dashboard_first()
 
-        if isinstance(from_date, str): # "2024-10-10"
+        if isinstance(from_date, str):  # "2024-10-10"
             from_date = date.fromisoformat(from_date)
-        if isinstance(to_date, str):    # "2024-10-10"
+        if isinstance(to_date, str):  # "2024-10-10"
             to_date = date.fromisoformat(to_date)
 
         req = GetElectricReportRequest(from_date, to_date, level)
@@ -71,8 +70,8 @@ class ElectricApi:
                 url = ELECTRIC_REPORT_BY_YEAR_URL
 
         res = await send_post_json_request(
-                self._state.session, self._state.jwt_token, url, json_data=req.to_dict(), use_auth=True
-            )
+            self._state.session, self._state.jwt_token, url, json_data=req.to_dict(), use_auth=True
+        )
 
         match level:
             case ElectricReportLevel.HOURLY:

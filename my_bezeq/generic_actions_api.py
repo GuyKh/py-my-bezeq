@@ -10,6 +10,7 @@ from .commons import send_post_json_request
 
 _LOGGER = logging.getLogger(__name__)
 
+
 class GenericActionsApi:
     def __init__(self, state: ApiState):
         self._state = state

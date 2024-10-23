@@ -14,5 +14,6 @@ class ApiState:
 
     def require_dashboard_first(self):
         if not self.is_dashboard_called:
-            raise MyBezeqError("get_dashboard_tab() should be called before calling this method," +\
-                            "Otherwise you may get empty data")
+            raise MyBezeqError(
+                "get_dashboard_tab() should be called before calling this method," + "Otherwise you may get empty data"
+            )

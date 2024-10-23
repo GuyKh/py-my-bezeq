@@ -134,6 +134,7 @@ from .common import ElectSubscriber
 
 _LOGGER = logging.getLogger(__name__)
 
+
 @dataclass
 class GetElectricityTabRequest(DataClassDictMixin):
     jwt_token: str = field(metadata=field_options(alias="JWTToken"))

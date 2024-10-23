@@ -20,6 +20,7 @@ from .commons import send_post_json_request
 
 _LOGGER = logging.getLogger(__name__)
 
+
 class InternetApi:
     def __init__(self, state: ApiState):
         self._state = state
@@ -34,8 +35,14 @@ class InternetApi:
         self._state.require_dashboard_first()
         req = GetRegisteredDevicesRequest()
         return GetRegisteredDevicesResponse.from_dict(
-            await send_post_json_request(self._state.session, self._state.jwt_token, REGISTERED_DEVICES_URL,
-                                         json_data=req.to_dict(), use_auth=True))
+            await send_post_json_request(
+                self._state.session,
+                self._state.jwt_token,
+                REGISTERED_DEVICES_URL,
+                json_data=req.to_dict(),
+                use_auth=True,
+            )
+        )
 
     async def get_internet_tab(self):
         self._state.require_dashboard_first()
@@ -43,13 +50,11 @@ class InternetApi:
             await send_post_json_request(self._state.session, self._state.jwt_token, INTERNET_TAB_URL, use_auth=True)
         )
 
-
     async def get_speed_test_card(self):
         self._state.require_dashboard_first()
         return GetSpeedTestCard.from_dict(
             await send_post_json_request(self._state.session, self._state.jwt_token, SPEED_TEST_CARD_URL, use_auth=True)
         )
-
 
     async def get_wifi_data(self):
         self._state.require_dashboard_first()
@@ -57,10 +62,10 @@ class InternetApi:
             await send_post_json_request(self._state.session, self._state.jwt_token, WIFI_DATA_URL, use_auth=True)
         )
 
-
     async def get_extender_details(self):
         self._state.require_dashboard_first()
         return GetExtendersDetailsResponse.from_dict(
-            await send_post_json_request(self._state.session, self._state.jwt_token, EXTENDERS_DETAILS_URL,
-                                         use_auth=True)
+            await send_post_json_request(
+                self._state.session, self._state.jwt_token, EXTENDERS_DETAILS_URL, use_auth=True
+            )
         )
