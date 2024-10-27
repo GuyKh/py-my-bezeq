@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "py-my-bezeq"
-version = "0.1.2"
+version = "0.1.3"
 description = "Bezeq API wrapper for my-bezeq interface"
 authors = ["Guy Khmelnitsky <guykhmel@gmail.com>"]
 license = "MIT"
