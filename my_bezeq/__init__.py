@@ -16,16 +16,22 @@ from .models.call_log import GetCallLogRequest, GetCallLogResponse
 from .models.card_data import GetCardDataRequest, GetCardDataResponse
 from .models.cards import (
     AdditionalServicesCard,
+    BaseCardDetails,
+    Buffer,
     CallListCard,
+    CallRecord,
+    CardDetailsResponse,
     ElectricityMonthlyUsedCard,
     ElectricityMyPackageServiceCard,
     ElectricityPackageCard,
     ElectricityPayerCard,
     InternetCard,
+    Invoice,
     InvoiceListCard,
     InvoicesCard,
     PersonalCard,
     PhoneCard,
+    User,
 )
 from .models.common import BaseCard, BaseEntity, ElectSubscriber, ServiceType
 from .models.customer_messages import GetCustomerMessagesResponse
@@ -99,6 +105,7 @@ __all__ = [
     "InvoiceListCard",
     "PersonalCard",
     "PhoneCard",
+    "CardDetailsResponse",
     "AvailableSubscriber",
     "Bar",
     "BaseAuthResponse",
@@ -106,7 +113,10 @@ __all__ = [
     "BaseEntity",
     "BaseResponse",
     "BaseTabResponse",
+    "BaseCardDetails",
+    "Buffer",
     "CardDetails",
+    "CallRecord",
     "CmDetail",
     "CustomerDetail",
     "DailyUsage",
@@ -152,4 +162,5 @@ __all__ = [
     "TechnicianDetail",
     "SendSMSResponse",
     "StartAction",
+    "User"
 ]
