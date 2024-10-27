@@ -4,24 +4,37 @@ from mashumaro import DataClassDictMixin, field_options
 
 from my_bezeq.models.base import BaseClientResponse
 
-# POST api/InternetTab/GetWifiData
+# POST https://my-api.bezeq.co.il/{version}/api/GeneralActions/GetStartActions
 #
 # {
-#     "SsidName": null,
-#     "SsidPass": null,
-#     "WifiState": false,
-#     "WifiPasswordStrength": 0,
-#     "WifiNetworkHeader": null,
-#     "WifiNetworkText": null,
-#     "IsBeRouter": false,
-#     "Link": null,
-#     "RouterSerialNumber": null,
-#     "IsBnetMode": false,
-#     "IsSuccessful": false,
-#     "ErrorCode": "-1",
-#     "ErrorMessage": "אירעה שגיאה, נא לנסות מאוחר יותר",
-#     "ClientErrorMessage": ""
-# }
+#     "StartActions":[
+#        {
+#           "Id":1,
+#           "actionName":"payBill",
+#           "actionNameToDisplay":"תשלום חשבונית",
+#           "actionURL":"https://bpay.bezeq.co.il/identification",
+#           "Order":1
+#        },
+#        {
+#           "Id":2,
+#           "actionName":"joinHok",
+#           "actionNameToDisplay":"הצטרפות להוראת קבע",
+#           "actionURL":"https://bmy.bezeq.co.il/actions/hok?internal_source=myb_start&WT.isp=myb_invoice",
+#           "Order":2
+#        },
+#        {
+#           "Id":3,
+#           "actionName":"joinMailInvoice",
+#           "actionNameToDisplay":"הצטרפות לחשבונית דיגיטלית",
+#           "actionURL":"https://bmail.bezeq.co.il/",
+#           "Order":3
+#        }
+#     ],
+#     "IsSuccessful":true,
+#     "ErrorCode":"",
+#     "ErrorMessage":"",
+#     "ClientErrorMessage":""
+#  }
 
 
 @dataclass
