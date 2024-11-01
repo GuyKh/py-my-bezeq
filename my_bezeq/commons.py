@@ -98,7 +98,7 @@ async def send_post_json_request(
     session: ClientSession,
     token: str | None,
     url: str,
-    timeout: Optional[int] = 60,
+    timeout: Optional[int] = 300,
     headers: Optional[dict] = None,
     data: Optional[dict] = None,
     json_data: Optional[dict] = None,
