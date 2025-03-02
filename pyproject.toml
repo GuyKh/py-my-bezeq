@@ -1,4 +1,5 @@
 [tool.poetry]
+package-mode = false
 name = "py-my-bezeq"
 version = "0.1.4"
 description = "Bezeq API wrapper for my-bezeq interface"
