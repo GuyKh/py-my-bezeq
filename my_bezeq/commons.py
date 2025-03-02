@@ -138,5 +138,5 @@ async def send_post_request(data, headers, json_data, session, timeout, token, u
     if resp.status == http.HTTPStatus.UNAUTHORIZED:
         raise MyBezeqUnauthorizedError("Unauthorized request, please check your JWT token")
     if resp.status != http.HTTPStatus.OK:
-        await parse_error_response(resp, await resp.content)
+        await parse_error_response(resp, await resp.read())
     return resp
