@@ -2,7 +2,7 @@ FROM python:3.11.4-slim-buster AS base
 
 WORKDIR /src
 
-COPY pyproject.toml .
+COPY pyproject.toml README.md  .
 RUN pip install poetry
 
 FROM base AS dependencies
