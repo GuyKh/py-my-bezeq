@@ -2,6 +2,14 @@
 
 This would allow you to logon, fetch various data.
 
+## 🚫 This Component is Currently Broken
+
+**⚠️ Due to recent changes in the Bezeq API, this component no longer works.**  
+**Username/password login is no longer supported.**
+
+We are actively monitoring the situation.  
+**⭐️ Follow this repository for updates as they become available.**
+
 ## Installation
 To install, run:
 ```
