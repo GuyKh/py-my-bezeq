@@ -125,7 +125,7 @@ class MonthlyUsage(UsageRecordBase, DataClassDictMixin):
     sum_all_month: float = field(metadata=field_options(alias="SumAllMonth"))
 
     def __repr__(self):
-        return f"MonthlyUsage({self.usage_month.strftime("%m-%Y")}: {self.sum_all_month})"
+        return f"MonthlyUsage({self.usage_month.strftime('%m-%Y')}: {self.sum_all_month})"
 
 
 @dataclass
