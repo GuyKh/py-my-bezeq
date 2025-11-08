@@ -17,7 +17,7 @@ aiohttp = "^3.9.5"
 mashumaro = "^3.13.1"
 
 [tool.poetry.dev-dependencies]
-pytest = "^8.0.0"
+pytest = "^9.0.0"
 pytest-cov = "^7.0.0"
 ruff = "^0.14.0"
 
