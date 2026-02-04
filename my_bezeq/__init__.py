@@ -162,5 +162,5 @@ __all__ = [
     "TechnicianDetail",
     "SendSMSResponse",
     "StartAction",
-    "User"
+    "User",
 ]
